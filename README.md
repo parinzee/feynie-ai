@@ -8,7 +8,7 @@ Status: Under active development!
 ```
 
 ## 🌟 What's Inside:
-- Voice-powered teaching interface with React & WebRTC
+- Voice-powered teaching interface with React (T3 Stack) & WebRTC
 - Cute v-tuber character that reacts to your explanations (Three.js)
 - Interactive whiteboard for drawing concepts (Canvas API)
 

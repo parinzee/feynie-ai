@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres_db:
+    image: postgres:17.5-alpine
+    container_name: ${DB_NAME}-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+
+# Add these environment variables to your .env file if not already there:
+# DB_PASSWORD - extracted from DATABASE_URL
+# DB_PORT - extracted from DATABASE_URL
+# DB_NAME - extracted from DATABASE_URL 
