@@ -62,9 +62,9 @@ export default function ChatPage() {
   }, [messages]);
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground">
-      <header className="p-4 border-b shadow-sm sticky top-0 bg-background z-10 flex justify-between items-center">
-        <h1 className="text-xl font-semibold">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-orange-100 via-amber-50 to-yellow-100 text-slate-700">
+      <header className="p-4 border-b shadow-sm sticky top-0 bg-white/80 backdrop-blur-md z-10 flex justify-between items-center">
+        <h1 className="text-xl font-semibold text-purple-700">
           {topicParam ? `Teaching: ${topicParam}` : 'Feynie AI Chat'}
         </h1>
         <div className="flex items-center gap-2">
@@ -73,6 +73,7 @@ export default function ChatPage() {
             size="icon" 
             onClick={() => setShowSettings(!showSettings)}
             aria-label="Settings"
+            className="text-purple-600 hover:text-purple-700 hover:bg-purple-100"
           >
             <Settings size={20} />
           </Button>
@@ -81,20 +82,20 @@ export default function ChatPage() {
 
       {/* Settings Panel */}
       {showSettings && (
-        <div className="p-4 border-b bg-muted/20">
+        <div className="p-4 border-b bg-amber-50/50">
           <div className="max-w-3xl mx-auto">
             <div className="flex justify-between items-center mb-3">
-              <h2 className="font-semibold">Chat Settings</h2>
-              <Button variant="ghost" size="icon" onClick={() => setShowSettings(false)}>
+              <h2 className="font-semibold text-purple-700">Chat Settings</h2>
+              <Button variant="ghost" size="icon" onClick={() => setShowSettings(false)} className="text-slate-600 hover:text-purple-700 hover:bg-purple-100">
                 <X size={18} />
               </Button>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium mb-1">Model</label>
+                <label className="block text-sm font-medium mb-1 text-slate-600">Model</label>
                 <select 
-                  className="w-full p-2 border rounded bg-background"
+                  className="w-full p-2 border border-purple-200 rounded bg-white focus:ring-purple-500 focus:border-purple-500 text-slate-700"
                   value={model}
                   onChange={(e) => setModel(e.target.value as ModelOption)}
                 >
@@ -105,9 +106,9 @@ export default function ChatPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">Persona</label>
+                <label className="block text-sm font-medium mb-1 text-slate-600">Persona</label>
                 <select 
-                  className="w-full p-2 border rounded bg-background"
+                  className="w-full p-2 border border-purple-200 rounded bg-white focus:ring-purple-500 focus:border-purple-500 text-slate-700"
                   value={persona}
                   onChange={(e) => setPersona(e.target.value)}
                 >
@@ -118,7 +119,7 @@ export default function ChatPage() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium mb-1">
+                <label className="block text-sm font-medium mb-1 text-slate-600">
                   Temperature: {temperature.toFixed(1)}
                 </label>
                 <input 
@@ -128,16 +129,17 @@ export default function ChatPage() {
                   step="0.1"
                   value={temperature}
                   onChange={(e) => setTemperature(parseFloat(e.target.value))}
-                  className="w-full"
+                  className="w-full h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer accent-purple-600"
                 />
               </div>
             </div>
             
-            <div className="mt-3 flex justify-end">
+            <div className="mt-4 flex justify-end">
               <Button 
                 variant="outline" 
                 size="sm" 
                 onClick={handleClearChat}
+                className="text-purple-600 border-purple-400 hover:bg-purple-50 hover:text-purple-700"
               >
                 Clear Chat
               </Button>
@@ -149,9 +151,9 @@ export default function ChatPage() {
       <ScrollArea className="flex-grow p-4 md:p-6" ref={scrollAreaRef}>
         <div className="max-w-3xl mx-auto space-y-6">
           {messages.length === 0 && (
-            <div className="text-center text-muted-foreground py-8">
-              <Bot size={40} className="mx-auto mb-4 opacity-50" />
-              <h3 className="text-lg font-semibold mb-2">Welcome to Feynie AI!</h3>
+            <div className="text-center text-slate-500 py-8">
+              <Bot size={40} className="mx-auto mb-4 opacity-60 text-purple-500" />
+              <h3 className="text-lg font-semibold mb-2 text-purple-700">Welcome to Feynie AI!</h3>
               <p className="max-w-md mx-auto">
                 {topicParam 
                   ? `I'm ready to learn about ${topicParam}! Start teaching me and I'll ask questions to help you develop your understanding.`
@@ -168,10 +170,10 @@ export default function ChatPage() {
                 </Avatar>
               )}
               <div 
-                className={`p-3 rounded-lg shadow-sm max-w-[75%] prose prose-sm dark:prose-invert prose-p:my-1 prose-headings:my-2 prose-pre:bg-muted prose-pre:p-3 prose-pre:rounded-md prose-pre:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-[''] prose-code:px-1 prose-code:py-0.5 prose-code:rounded
+                className={`p-3 rounded-lg shadow-md max-w-[80%] prose prose-sm dark:prose-invert prose-p:mb-2 prose-headings:my-2 prose-pre:bg-slate-100 dark:prose-pre:bg-slate-800 prose-pre:p-3 prose-pre:rounded-md prose-pre:text-sm prose-code:font-mono prose-code:before:content-[''] prose-code:after:content-[''] prose-code:px-1 prose-code:py-0.5 prose-code:rounded
                   ${m.role === 'user' 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-muted text-muted-foreground'
+                    ? 'bg-purple-600 text-white ml-auto' // User messages to the right
+                    : 'bg-white text-slate-700' // Assistant messages to the left
                   }`
                 }
               >
@@ -190,7 +192,7 @@ export default function ChatPage() {
         </div>
       </ScrollArea>
 
-      <footer className="p-4 border-t sticky bottom-0 bg-background z-10">
+      <footer className="p-4 border-t border-purple-100 sticky bottom-0 bg-white/70 backdrop-blur-md z-10">
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto flex items-center space-x-2">
           <Input
             value={input}
@@ -199,17 +201,17 @@ export default function ChatPage() {
               ? `Teach Feynie about ${topicParam}...` 
               : "Teach Feynie about a concept..."
             }
-            className="flex-grow"
+            className="flex-grow border-purple-300 focus:ring-purple-500 focus:border-purple-500 placeholder-slate-400 text-slate-700"
             disabled={isLoading}
           />
-          <Button type="submit" size="icon" disabled={isLoading}>
+          <Button type="submit" size="icon" disabled={isLoading} className="bg-purple-600 hover:bg-purple-700 text-white">
             <SendHorizonal size={20} />
             <span className="sr-only">Send message</span>
           </Button>
         </form>
         {model !== 'openai-gpt4o' && (
           <div className="max-w-3xl mx-auto mt-2">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-xs text-slate-500">
               Currently using {getModelDisplayName(model)}
             </p>
           </div>

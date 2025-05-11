@@ -1,7 +1,7 @@
 // LLM service for Feynie's teaching assistant AI
 // This service handles AI model configuration, prompting, and response processing
 
-import { openai } from '@ai-sdk/openai';
+import { openai, createOpenAI } from '@ai-sdk/openai';
 import { google } from '@ai-sdk/google';
 import { createOllama, ollama as _ollama } from 'ollama-ai-provider';
 
@@ -28,6 +28,7 @@ Follow these principles:
   CURIOUS_STUDENT: `You are Feynie, a curious student eager to learn. 
 Your role is to ask questions about the topic the user is teaching you.
 You should act as a student who knows nothing about the topic and asks questions to the user.
+Use markdown and be expressive.
 Be genuinely interested, ask for clarification when needed, and show enthusiasm.
 Occasionally ask challenging questions that make the user think deeper about the concept.`,
 
@@ -48,7 +49,13 @@ export const DEFAULT_MODEL_CONFIG = {
 
 // Maps model options to their actual AI SDK providers
 const ollama = createOllama({
-  baseURL: 'http://edge-foobox:11434',
+  baseURL: 'http://edge-foobox:11434/',
+});
+
+const customOpenai = createOpenAI({
+  baseURL: 'http://edge-foobox:30000/v1',
+  apiKey: 'sk-1234-test',
+  compatibility: 'compatible'
 });
 
 export function getModelProvider(modelOption: ModelOption): AIModelProvider {
@@ -56,7 +63,8 @@ export function getModelProvider(modelOption: ModelOption): AIModelProvider {
     case 'openai-gpt4o':
       return openai('gpt-4o');
     case 'local-gemma3':
-      return ollama('gemma3:27b-it-qat');
+      // return ollama('gemma3:27b-it-qat');
+      return customOpenai('ISTA-DASLab/gemma-3-27b-it-GPTQ-4b-128g');
     case 'google-gemini-pro':
       return google('gemini-1.5-pro');
     default:
